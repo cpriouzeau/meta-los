@@ -39,7 +39,7 @@ EOF
 # alias function: set all environment variables
 #
 losoe_set_env() {
-    export LOS_OE_ROOT_DIR=`realpath $PWD/`
+    export LOS_OE_ROOT_DIR=`readlink -f -- "$PWD/"`
     export LOS_OE_BUILD_DIR=$LOS_OE_ROOT_DIR/$_BUILDDIR
     export LOS_OE_DL_DIR=$HOME/Public/oe-downloads
 }
