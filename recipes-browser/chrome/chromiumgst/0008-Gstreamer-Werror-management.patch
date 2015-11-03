@@ -1,0 +1,109 @@
+From b8287428fc5e21284b5bedd0ba2e3e0d832f000c Mon Sep 17 00:00:00 2001
+From: Christophe Priouzeau <christophe.priouzeau@linaro.org>
+Date: Wed, 28 Oct 2015 16:10:41 +0100
+Subject: [PATCH] Gstreamer Werror management
+
+Signed-off-by: Christophe Priouzeau <christophe.priouzeau@linaro.org>
+---
+ base/base.gypi              | 20 ++++++++++----------
+ build/common.gypi           |  2 +-
+ build/linux/system.gyp      |  5 +++++
+ content/content_common.gypi |  1 +
+ content/content_media.gypi  |  2 ++
+ 5 files changed, 19 insertions(+), 11 deletions(-)
+
+diff --git a/base/base.gypi b/base/base.gypi
+index d592967..164d80f 100644
+--- a/base/base.gypi
++++ b/base/base.gypi
+@@ -779,11 +779,11 @@
+                 ['exclude', '^nix/'],
+               ],
+           }],
+-          ['<(use_glib)==0 or >(nacl_untrusted_build)==1', {
+-              'sources!': [
+-                'message_loop/message_pump_glib.cc',
+-              ],
+-          }],
++#          ['<(use_glib)==0 or >(nacl_untrusted_build)==1', {
++#              'sources!': [
++#                'message_loop/message_pump_glib.cc',
++#              ],
++#          }],
+           ['(OS != "linux" and <(os_bsd) != 1 and OS != "android") or >(nacl_untrusted_build)==1', {
+               'sources!': [
+                 # Not automatically excluded by the *linux.cc rules.
+@@ -956,11 +956,11 @@
+               'strings/string16.cc',
+             ],
+           },],
+-          ['<(use_ozone) == 1', {
+-            'sources!': [
+-              'message_loop/message_pump_glib.cc',
+-            ]
+-          }],
++#          ['<(use_ozone) == 1', {
++#            'sources!': [
++#              'message_loop/message_pump_glib.cc',
++#            ]
++#          }],
+           ['OS == "linux" and >(nacl_untrusted_build)==0', {
+             'sources!': [
+               'files/file_path_watcher_fsevents.cc',
+diff --git a/build/common.gypi b/build/common.gypi
+index 7d6d2ac..6786ace 100644
+--- a/build/common.gypi
++++ b/build/common.gypi
+@@ -3710,7 +3710,7 @@
+         # Enable -Werror by default, but put it in a variable so it can
+         # be disabled in ~/.gyp/include.gypi on the valgrind builders.
+         'variables': {
+-          'werror%': '-Werror',
++          'werror%': '',
+           'libraries_for_target%': '',
+         },
+         'defines': [
+diff --git a/build/linux/system.gyp b/build/linux/system.gyp
+index 95e5aab..26c6056 100644
+--- a/build/linux/system.gyp
++++ b/build/linux/system.gyp
+@@ -1276,6 +1276,11 @@
+       },
+       'conditions': [
+         ['use_gstreamer==1', {
++          'direct_dependent_settings': {
++            'cflags': [
++              '<!@(<(pkg-config) --cflags <(gstreamer_packages))',
++            ],
++          },
+           'all_dependent_settings': {
+             'cflags': [
+               '<!@(<(pkg-config) --cflags <(gstreamer_packages))',
+diff --git a/content/content_common.gypi b/content/content_common.gypi
+index 7c75bd0..7760bd8 100644
+--- a/content/content_common.gypi
++++ b/content/content_common.gypi
+@@ -21,6 +21,7 @@
+     '../ui/gfx/ipc/gfx_ipc.gyp:gfx_ipc',
+     '../ui/shell_dialogs/shell_dialogs.gyp:shell_dialogs',
+     '../url/url.gyp:url_lib',
++    '../build/linux/system.gyp:gstreamer',
+   ],
+   'include_dirs': [
+     '..',
+diff --git a/content/content_media.gypi b/content/content_media.gypi
+index 043ee7f..7a749e6 100644
+--- a/content/content_media.gypi
++++ b/content/content_media.gypi
+@@ -8,6 +8,8 @@
+       'dependencies': [
+         '../base/base.gyp:base',
+         '../build/linux/system.gyp:gstreamer',
++        '../skia/skia.gyp:skia',
++        '../v8/tools/gyp/v8.gyp:v8',
+       ],
+       'sources': [
+         'media/in_process_media_thread.cc',
+-- 
+2.5.0
+

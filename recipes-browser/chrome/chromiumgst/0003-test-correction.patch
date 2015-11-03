@@ -1,0 +1,29 @@
+From 1acc9b3b5a31886cc02793f0a3115612f75b2057 Mon Sep 17 00:00:00 2001
+From: Christophe Priouzeau <christophe.priouzeau@linaro.org>
+Date: Thu, 22 Oct 2015 16:34:49 +0200
+Subject: [PATCH 3/6] test correction
+
+Signed-off-by: Christophe Priouzeau <christophe.priouzeau@linaro.org>
+---
+ chrome/test/data/webui_test_resources.grd | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/chrome/test/data/webui_test_resources.grd b/chrome/test/data/webui_test_resources.grd
+index 6f8530d..f442e78 100644
+--- a/chrome/test/data/webui_test_resources.grd
++++ b/chrome/test/data/webui_test_resources.grd
+@@ -6,9 +6,9 @@
+     </output>
+     <output filename="webui_test_resources.pak" type="data_package" />
+   </outputs>
+-  <release seq="1">
++  <!--release seq="1">
+     <includes>
+       <include name="IDR_WEBUI_TEST_I18N_PROCESS_CSS_TEST" file="webui/i18n_process_css_test.html" flattenhtml="true" allowexternalscript="true" type="BINDATA" />
+     </includes>
+-  </release>
++  </release-->
+ </grit>
+-- 
+2.5.0
+

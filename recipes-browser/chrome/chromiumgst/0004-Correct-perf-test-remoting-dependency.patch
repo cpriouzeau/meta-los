@@ -1,0 +1,25 @@
+From 5f54cd3b62a4cbbbe2f4ac932c66364ad07c83b9 Mon Sep 17 00:00:00 2001
+From: Christophe Priouzeau <christophe.priouzeau@linaro.org>
+Date: Wed, 28 Oct 2015 16:07:53 +0100
+Subject: [PATCH 4/6] Correct perf test remoting dependency
+
+Signed-off-by: Christophe Priouzeau <christophe.priouzeau@linaro.org>
+---
+ remoting/remoting_all.gyp | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/remoting/remoting_all.gyp b/remoting/remoting_all.gyp
+index b624351..ee135c0 100644
+--- a/remoting/remoting_all.gyp
++++ b/remoting/remoting_all.gyp
+@@ -19,7 +19,6 @@
+         '../remoting/remoting.gyp:remoting_breakpad',
+         '../remoting/remoting.gyp:remoting_browser_test_resources',
+         '../remoting/remoting.gyp:remoting_client',
+-        '../remoting/remoting.gyp:remoting_perftests',
+         '../remoting/remoting.gyp:remoting_protocol',
+         '../remoting/remoting.gyp:remoting_resources',
+         '../remoting/remoting.gyp:remoting_test_support',
+-- 
+2.5.0
+

@@ -1,0 +1,40 @@
+From 853ed2b221f8cf2c038fd929c2f5e7480d0690d2 Mon Sep 17 00:00:00 2001
+From: cpriouzeau <christophe.priouzeau@gmail.com>
+Date: Fri, 30 Oct 2015 18:39:17 +0100
+Subject: [PATCH 6/6] fix_mesa_GL_RED_support_detection
+
+---
+ gpu/command_buffer/service/feature_info.cc | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/gpu/command_buffer/service/feature_info.cc b/gpu/command_buffer/service/feature_info.cc
+index 1505e8c..4fad30c 100644
+--- a/gpu/command_buffer/service/feature_info.cc
++++ b/gpu/command_buffer/service/feature_info.cc
+@@ -248,6 +248,8 @@ bool IsGL_REDSupportedOnFBOs() {
+   // this, we try it, and if it fails, we don't expose GL_EXT_texture_rg.
+   GLint fb_binding = 0;
+   GLint tex_binding = 0;
++  bool result;
++
+   glGetIntegerv(GL_FRAMEBUFFER_BINDING, &fb_binding);
+   glGetIntegerv(GL_TEXTURE_BINDING_2D, &tex_binding);
+ 
+@@ -262,8 +264,13 @@ bool IsGL_REDSupportedOnFBOs() {
+   glBindFramebufferEXT(GL_FRAMEBUFFER, textureFBOID);
+   glFramebufferTexture2DEXT(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
+                             textureId, 0);
+-  bool result =
++
++  if(glGetError() != GL_NO_ERROR)
++    result = false;
++  else
++    result =
+       glCheckFramebufferStatusEXT(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_UNSUPPORTED;
++
+   glDeleteFramebuffersEXT(1, &textureFBOID);
+   glDeleteTextures(1, &textureId);
+ 
+-- 
+2.5.0
+

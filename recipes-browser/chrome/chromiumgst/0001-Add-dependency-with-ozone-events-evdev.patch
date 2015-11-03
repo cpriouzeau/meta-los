@@ -1,0 +1,27 @@
+From 07660ceca0b9754e4957c22eab65dbc39e7b2420 Mon Sep 17 00:00:00 2001
+From: cpriouzeau <christophe.priouzeau@gmail.com>
+Date: Mon, 2 Nov 2015 16:58:56 +0100
+Subject: [PATCH] Add dependency with ozone events evdev
+
+Signed-off-by: cpriouzeau <christophe.priouzeau@gmail.com>
+---
+ ozone_impl.gyp | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/ozone/ozone_impl.gyp b/ozone/ozone_impl.gyp
+index d7264e7..f3a98d8 100644
+--- a/ozone/ozone_impl.gyp
++++ b/ozone/ozone_impl.gyp
+@@ -15,7 +15,8 @@
+         '<(DEPTH)/skia/skia.gyp:skia',
+         '<(DEPTH)/base/third_party/dynamic_annotations/dynamic_annotations.gyp:dynamic_annotations',
+         '<(DEPTH)/ui/gfx/ipc/gfx_ipc.gyp:gfx_ipc',
+-        'wayland/wayland.gyp:wayland_toolkit'
++        'wayland/wayland.gyp:wayland_toolkit',
++        '<(DEPTH)/ui/events/ozone/events_ozone.gyp:events_ozone_evdev'
+       ],
+       'include_dirs': [
+         '..',
+-- 
+2.5.0
+

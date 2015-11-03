@@ -1,0 +1,47 @@
+#!/bin/sh
+
+export CHROME_DEVEL_SANDBOX=/usr/sbin/chrome-devel-sandbox
+export LD_LIBRARY_PATH=/usr/lib/chromium
+
+CHROME_EXTRA_ARGS=""
+CHROME_EXTRA_ARGS="${CHROME_EXTRA_ARGS} --user-data-dir=/home/root/.chromium"
+
+#CHROME_EXTRA_ARGS="${CHROME_EXTRA_ARGS} --enable-logging --v=1 "
+CHROME_EXTRA_ARGS="${CHROME_EXTRA_ARGS} --enable-logging=stderr --v=1 "
+
+#Full screen
+#CHROME_EXTRA_ARGS="${CHROME_EXTRA_ARGS} --start-maximized "
+#CHROME_EXTRA_ARGS="${CHROME_EXTRA_ARGS} --start-fullscreen "
+
+#remove notification bar:
+CHROME_EXTRA_ARGS="${CHROME_EXTRA_ARGS} --test-type "
+
+#remove sandbox:
+CHROME_EXTRA_ARGS="${CHROME_EXTRA_ARGS} --no-sandbox "
+
+#ignore certificate
+CHROME_EXTRA_ARGS="${CHROME_EXTRA_ARGS} --ignore-certificate-errors "
+CHROME_EXTRA_ARGS="${CHROME_EXTRA_ARGS} --composite-to-mailbox "
+#Since chromium 45
+CHROME_EXTRA_ARGS="${CHROME_EXTRA_ARGS} --in-process-gpu"
+
+#proxy-server:
+CHROME_EXTRA_ARGS="${CHROME_EXTRA_ARGS} --proxy-pac-url=http://lps-eu.st.com/ "
+
+# touch screen
+#CHROME_EXTRA_ARGS="${CHROME_EXTRA_ARGS}  --enable-pinch "
+#CHROME_EXTRA_ARGS="${CHROME_EXTRA_ARGS}  --touch-scrolling-mode "
+#CHROME_EXTRA_ARGS="${CHROME_EXTRA_ARGS}  --enable-virtual-keyboard "
+
+# New flag to make the memory usage of Blink less aggressive
+CHROME_EXTRA_ARGS="${CHROME_EXTRA_ARGS}  --enable-low-end-device-mode "
+
+CHROME_EXTRA_ARGS="${CHROME_EXTRA_ARGS}  --ignore-gpu-blacklist "
+
+# gstreamer
+CHROME_EXTRA_ARGS="${CHROME_EXTRA_ARGS} -disable-media-sandbox "
+CHROME_EXTRA_ARGS="${CHROME_EXTRA_ARGS} --disable-setuid-sandbox "
+CHROME_EXTRA_ARGS="${CHROME_EXTRA_ARGS} --enable-prefixed-encrypted-media "
+
+#/usr/bin/chromium/chrome ${CHROME_EXTRA_ARGS} $@ 2>&1 /dev/null &
+/usr/bin/chromium/chrome ${CHROME_EXTRA_ARGS} $@

@@ -1,0 +1,51 @@
+From 5ec9ac54045843f3ccdd987be25d5361ce83747a Mon Sep 17 00:00:00 2001
+From: cpriouzeau <christophe.priouzeau@gmail.com>
+Date: Mon, 2 Nov 2015 16:54:23 +0100
+Subject: [PATCH 3/3] AARCH64: correct sandbox restriction with architecture
+ arm64
+
+Signed-off-by: cpriouzeau <christophe.priouzeau@gmail.com>
+---
+ content/common/sandbox_linux/bpf_media_policy_linux.cc | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/content/common/sandbox_linux/bpf_media_policy_linux.cc b/content/common/sandbox_linux/bpf_media_policy_linux.cc
+index cf639ee..cd421b1 100644
+--- a/content/common/sandbox_linux/bpf_media_policy_linux.cc
++++ b/content/common/sandbox_linux/bpf_media_policy_linux.cc
+@@ -162,9 +162,11 @@ ResultExpr MediaBrokerProcessPolicy::EvaluateSyscall(int sysno) const {
+ #endif  // !defined(__aarch64__)
+     case __NR_faccessat:
+     case __NR_openat:
++#if !defined(OS_CHROMEOS) && !defined(__aarch64__)
+     // The broker process needs to able to unlink the temporary
+     // files that it may create.
+     case __NR_unlink:
++#endif
+       return Allow();
+     default:
+       return MediaProcessPolicy::EvaluateSyscall(sysno);
+@@ -256,15 +258,19 @@ ResultExpr MediaProcessPolicy::EvaluateSyscall(int sysno) const {
+     case __NR_stat64:
+     case __NR_statfs64:
+ #endif
+-    case __NR_stat:
+     case __NR_statfs:  // Required for shm_open.
++#if !defined(OS_CHROMEOS) && !defined(__aarch64__)
++    case __NR_stat:
+     case __NR_unlink:
++#endif
+     case __NR_uname:
+       return Allow();
+ 
++#if !defined(__aarch64__)
+     // Pulse audio, see pulsecore/core-utils.c::pa_make_secure_dir
+     case __NR_lstat:
+     case __NR_mkdir:
++#endif
+     case __NR_fchown:
+       return Allow();
+ 
+-- 
+2.5.0
+
