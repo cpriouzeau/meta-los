@@ -24,7 +24,9 @@ BBLAYERS_NON_REMOVABLE ?= " \
 # linaro
 BBLAYERS += "${@'${OEROOT}/meta-linaro/meta-linaro' if os.path.isfile('${OEROOT}/meta-linaro/meta-linaro/conf/layer.conf') else ''}"
 BBLAYERS += "${@'${OEROOT}/meta-linaro/meta-linaro-toolchain' if os.path.isfile('${OEROOT}/meta-linaro/meta-linaro-toolchain/conf/layer.conf') else ''}"
+BBLAYERS += "${@'${OEROOT}/meta-linaro/meta-aarch64' if os.path.isfile('${OEROOT}/meta-linaro/meta-aarch64/conf/layer.conf') else ''}"
 BBLAYERS += "${@'${OEROOT}/meta-openembedded/meta-networking' if os.path.isfile('${OEROOT}/meta-linaro/meta-linaro/conf/layer.conf') else ''}"
+
 
 # specific to meta-browser
 BBLAYERS += "${@'${OEROOT}/meta-browser' if os.path.isfile('${OEROOT}/meta-browser/conf/layer.conf') else ''}"
